@@ -1,6 +1,6 @@
 {
-  "name": "nodejs",
-  "repository": "hansson_erik/nodejs",
+  "name": "advent-of-code-2020",
+  "repository": "hansson_erik/advent-oof-code-2020",
   "version": "0.0.1",
   "description": "",
   "main": "index.ts",
