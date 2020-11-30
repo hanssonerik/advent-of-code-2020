@@ -1,0 +1,36 @@
+{
+  "name": "nodejs",
+  "repository": "hansson_erik/nodejs",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "jest src --watch",
+    "test:ci": "jest --ci --verbose --collectCoverage",
+    "transpile": "babel src -d build",
+    "start": "nodemon"
+  },
+  "author": "Erik Hansson",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.10.3",
+    "@babel/core": "^7.10.3",
+    "@babel/node": "^7.10.3",
+    "@babel/preset-env": "^7.10.3",
+    "@babel/preset-typescript": "^7.12.7",
+    "@types/jest": "^26.0.3",
+    "@typescript-eslint/eslint-plugin": "^3.4.0",
+    "@typescript-eslint/parser": "^3.4.0",
+    "eslint": "^7.3.1",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-json": "^2.1.1",
+    "jest": "^26.1.0",
+    "nodemon": "^2.0.4",
+    "ts-jest": "^26.3.0",
+    "ts-node-dev": "^1.0.0",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^3.9.5"
+  },
+  "dependencies": {}
+}
