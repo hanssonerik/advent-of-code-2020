@@ -1,3 +1,5 @@
-import { hello } from "./hello/hello";
-
-hello(3).then().catch();
+import { App } from "app";
+console.debug("------------ START -------------");
+App()
+  .then(() => console.debug("------------- END --------------"))
+  .catch((e) => console.error(e));
