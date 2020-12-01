@@ -1,4 +1,3 @@
-import { mapToNumberRecords } from './reportRepair'
 /*
  * --- Day 1: Report Repair ---
  * After saving Christmas five years in a row, you've decided to take a vacation at a nice resort on a tropical island. Surely, Christmas will go on without you.
@@ -26,8 +25,17 @@ import { mapToNumberRecords } from './reportRepair'
  * Of course, your expense report is much larger. Find the two entries that sum to 2020; what do you get if you multiply them together?
  * */
 
+import sut from './reportRepair'
+
+const {
+  mapToNumberRecords,
+  sortAsc,
+  recordsValueSumEquals,
+  readNumberRecordsFromFile,
+} = sut
+
 describe('reportRepair', () => {
-  it('should map numbers array to object with index', async () => {
+  it('should map numbers array to object with index', () => {
     const input = ['3', '0', '5']
     const expected = [
       { index: 0, value: 3 },
@@ -38,5 +46,104 @@ describe('reportRepair', () => {
     const result = mapToNumberRecords(input)
 
     expect(result).toEqual(expected)
+  })
+
+  it('sort array of number records', () => {
+    const input = [
+      { index: 0, value: 3 },
+      { index: 1, value: 0 },
+      { index: 2, value: 5 },
+    ]
+    const expected = [
+      { index: 1, value: 0 },
+      { index: 0, value: 3 },
+      { index: 2, value: 5 },
+    ]
+
+    const result = sortAsc(input)
+
+    expect(result).toEqual(expected)
+  })
+
+  it('should return two records that add upp to desired sum', () => {
+    const input = [
+      { index: 0, value: 3 },
+      { index: 1, value: 18 },
+      { index: 2, value: 4 },
+      { index: 3, value: 5 },
+      { index: 4, value: 10 },
+    ]
+    const desiredSum = 23
+    const expectedFirstRecord = { index: 1, value: 18 }
+    const expectedSecondRecord = { index: 3, value: 5 }
+
+    const [firstRecord, secondRecord] = recordsValueSumEquals(input, desiredSum)
+
+    expect(firstRecord).toEqual(expectedFirstRecord)
+    expect(secondRecord).toEqual(expectedSecondRecord)
+  })
+
+  it('should return two records that add upp to desired sum', () => {
+    const input = [
+      { index: 0, value: 3 },
+      { index: 1, value: 18 },
+      { index: 2, value: 4 },
+      { index: 3, value: 5 },
+      { index: 4, value: 10 },
+    ]
+    const desiredSum = 23
+    const expectedFirstRecord = { index: 1, value: 18 }
+    const expectedSecondRecord = { index: 3, value: 5 }
+
+    const [firstRecord, secondRecord] = recordsValueSumEquals(input, desiredSum)
+
+    expect(firstRecord).toEqual(expectedFirstRecord)
+    expect(secondRecord).toEqual(expectedSecondRecord)
+  })
+
+  it('should return numberRecord array from valid input filePath', async () => {
+    const fileName = 'testfile.in'
+    const desiredSum = 23
+
+    const expectedNumberRecords = [
+      { index: 0, value: 3 },
+      { index: 1, value: 18 },
+      { index: 2, value: 4 },
+      { index: 3, value: 5 },
+      { index: 4, value: 10 },
+    ]
+    const records = await readNumberRecordsFromFile(`${__dirname}/${fileName}`)
+
+    expect(records).toEqual(expectedNumberRecords)
+  })
+
+  it('should return two null records if number of records is less than two', () => {
+    const input = [{ index: 0, value: 3 }]
+    const desiredSum = 23
+    const expectedFirstRecord = null
+    const expectedSecondRecord = null
+
+    const [firstRecord, secondRecord] = recordsValueSumEquals(input, desiredSum)
+
+    expect(firstRecord).toEqual(expectedFirstRecord)
+    expect(secondRecord).toEqual(expectedSecondRecord)
+  })
+
+  it('should return two null records if no number records adds up to desiredSum', () => {
+    const input = [
+      { index: 0, value: 3 },
+      { index: 1, value: 18 },
+      { index: 2, value: 4 },
+      { index: 3, value: 5 },
+      { index: 4, value: 10 },
+    ]
+    const desiredSum = 123
+    const expectedFirstRecord = null
+    const expectedSecondRecord = null
+
+    const [firstRecord, secondRecord] = recordsValueSumEquals(input, desiredSum)
+
+    expect(firstRecord).toEqual(expectedFirstRecord)
+    expect(secondRecord).toEqual(expectedSecondRecord)
   })
 })
