@@ -10,8 +10,10 @@ export default async (): Promise<Config.InitialOptions> => {
     globals: {
       "ts-jest": {},
     },
-    modulePaths: ["<rootDir>/src"],
+    modulePaths: ["src"],
     coveragePathIgnorePatterns: ["<rootDir>/node_modules/"],
+    collectCoverageFrom: ["src/**/*.ts"],
+    collectCoverage: true,
     coverageReporters: ["json", "lcov", "text", "text-summary"],
     coverageThreshold: {
       global: {
