@@ -3,7 +3,7 @@
   "repository": "hansson_erik/advent-oof-code-2020",
   "version": "0.0.1",
   "description": "",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "scripts": {
     "test": "jest src --watch",
     "test:ci": "jest --ci --verbose --collectCoverage",
