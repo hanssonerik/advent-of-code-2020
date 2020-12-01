@@ -12,20 +12,26 @@ export const sortAsc = (input: NumberRecord[]): NumberRecord[] =>
 
 export const recordsValueSumEquals = (
   input: NumberRecord[],
-  desiredSum: number
-): [NumberRecord | null, NumberRecord | null] => {
+  desiredSum: number,
+  numberOfRecordsShouldMatch: number
+): NumberRecord[] => {
   if (input.length < 2) {
-    return [null, null]
+    return []
   }
 
+  const sortedRecords = sortAsc(input)
   let lowerBoundIndex = 0
   let upperBoundIndex = input.length - 1
   let count = 0
 
-  while (count < input.length - 1) {
-    const sum = input[lowerBoundIndex].value + input[upperBoundIndex].value
+  const recordsThatAddsUp = []
+
+  while (count < sortedRecords.length - 1) {
+    const sum =
+      sortedRecords[lowerBoundIndex].value +
+      sortedRecords[upperBoundIndex].value
     if (sum === desiredSum) {
-      return [input[lowerBoundIndex], input[upperBoundIndex]]
+      return [sortedRecords[lowerBoundIndex], sortedRecords[upperBoundIndex]]
     }
 
     if (sum < desiredSum) {
@@ -35,7 +41,7 @@ export const recordsValueSumEquals = (
     }
     count++
   }
-  return [null, null]
+  return []
 }
 
 export const readNumberRecordsFromFile = async (
@@ -60,7 +66,8 @@ export const showFixedReportResult = async (
   const sortedRecords = sortAsc(records)
   const [firstRecord, secondRecord] = recordsValueSumEquals(
     sortedRecords,
-    desiredSum
+    desiredSum,
+    2
   )
 
   return firstRecord && secondRecord

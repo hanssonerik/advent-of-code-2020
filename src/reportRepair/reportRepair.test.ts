@@ -75,10 +75,14 @@ describe('reportRepair', () => {
       { index: 4, value: 10 },
     ]
     const desiredSum = 23
-    const expectedFirstRecord = { index: 1, value: 18 }
-    const expectedSecondRecord = { index: 3, value: 5 }
+    const expectedFirstRecord = { index: 3, value: 5 }
+    const expectedSecondRecord = { index: 1, value: 18 }
 
-    const [firstRecord, secondRecord] = recordsValueSumEquals(input, desiredSum)
+    const [firstRecord, secondRecord] = recordsValueSumEquals(
+      input,
+      desiredSum,
+      2
+    )
 
     expect(firstRecord).toEqual(expectedFirstRecord)
     expect(secondRecord).toEqual(expectedSecondRecord)
@@ -106,10 +110,14 @@ describe('reportRepair', () => {
       { index: 4, value: 10 },
     ]
     const desiredSum = 23
-    const expectedFirstRecord = { index: 1, value: 18 }
-    const expectedSecondRecord = { index: 3, value: 5 }
+    const expectedSecondRecord = { index: 1, value: 18 }
+    const expectedFirstRecord = { index: 3, value: 5 }
 
-    const [firstRecord, secondRecord] = recordsValueSumEquals(input, desiredSum)
+    const [firstRecord, secondRecord] = recordsValueSumEquals(
+      input,
+      desiredSum,
+      2
+    )
 
     expect(firstRecord).toEqual(expectedFirstRecord)
     expect(secondRecord).toEqual(expectedSecondRecord)
@@ -131,19 +139,23 @@ describe('reportRepair', () => {
     expect(records).toEqual(expectedNumberRecords)
   })
 
-  it('should return two null records if number of records is less than two', () => {
+  it('should return two undefined records if number of records is less than two', () => {
     const input = [{ index: 0, value: 3 }]
     const desiredSum = 23
-    const expectedFirstRecord = null
-    const expectedSecondRecord = null
+    const expectedFirstRecord = undefined
+    const expectedSecondRecord = undefined
 
-    const [firstRecord, secondRecord] = recordsValueSumEquals(input, desiredSum)
+    const [firstRecord, secondRecord] = recordsValueSumEquals(
+      input,
+      desiredSum,
+      2
+    )
 
     expect(firstRecord).toEqual(expectedFirstRecord)
     expect(secondRecord).toEqual(expectedSecondRecord)
   })
 
-  it('should return two null records if no number records adds up to desiredSum', () => {
+  it('should return two undefined records if no number records adds up to desiredSum', () => {
     const input = [
       { index: 0, value: 3 },
       { index: 1, value: 18 },
@@ -152,10 +164,14 @@ describe('reportRepair', () => {
       { index: 4, value: 10 },
     ]
     const desiredSum = 123
-    const expectedFirstRecord = null
-    const expectedSecondRecord = null
+    const expectedFirstRecord = undefined
+    const expectedSecondRecord = undefined
 
-    const [firstRecord, secondRecord] = recordsValueSumEquals(input, desiredSum)
+    const [firstRecord, secondRecord] = recordsValueSumEquals(
+      input,
+      desiredSum,
+      2
+    )
 
     expect(firstRecord).toEqual(expectedFirstRecord)
     expect(secondRecord).toEqual(expectedSecondRecord)
