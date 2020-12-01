@@ -51,9 +51,26 @@ export const readNumberRecordsFromFile = async (
   )
 }
 
+export const showFixedReportResult = async (
+  path: string,
+  desiredSum: number
+): Promise<number | undefined> => {
+  const records = await readNumberRecordsFromFile(path)
+
+  const sortedRecords = sortAsc(records)
+  const [firstRecord, secondRecord] = recordsValueSumEquals(
+    sortedRecords,
+    desiredSum
+  )
+
+  return firstRecord && secondRecord
+    ? firstRecord.value * secondRecord.value
+    : undefined
+}
 export default {
   readNumberRecordsFromFile,
   recordsValueSumEquals,
   sortAsc,
   mapToNumberRecords,
+  showFixedReportResult,
 }

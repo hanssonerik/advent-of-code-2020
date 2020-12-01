@@ -32,6 +32,7 @@ const {
   sortAsc,
   recordsValueSumEquals,
   readNumberRecordsFromFile,
+  showFixedReportResult,
 } = sut
 
 describe('reportRepair', () => {
@@ -81,6 +82,19 @@ describe('reportRepair', () => {
 
     expect(firstRecord).toEqual(expectedFirstRecord)
     expect(secondRecord).toEqual(expectedSecondRecord)
+  })
+
+  it('should return product of numberRecords matching desiredSum from file', async () => {
+    const desiredSum = 2020
+    const fileName = 'day01-input.in'
+
+    const reportResult = await showFixedReportResult(
+      `${__dirname}/${fileName}`,
+      desiredSum
+    )
+    console.debug('RESULT from fixed report: ', reportResult)
+
+    expect(reportResult).toBeDefined()
   })
 
   it('should return two records that add upp to desired sum', () => {
