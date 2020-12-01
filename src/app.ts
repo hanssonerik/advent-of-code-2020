@@ -1,5 +1,3 @@
-import { hello } from "./hello/hello";
-
 export const App = async () => {
-  await hello(3);
-};
+  console.debug('hello')
+}

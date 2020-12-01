@@ -1,5 +1,5 @@
 import { App } from "app";
 console.debug("------------ START -------------");
-App()
-  .then(() => console.debug("------------- END --------------"))
-  .catch((e) => console.error(e));
+export default App().then(() =>
+  console.debug("------------- END --------------")
+);
