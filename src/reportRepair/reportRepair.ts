@@ -20,26 +20,50 @@ export const recordsValueSumEquals = (
   }
 
   const sortedRecords = sortAsc(input)
-  let lowerBoundIndex = 0
-  let upperBoundIndex = input.length - 1
-  let count = 0
+  let arrayWithIndexes = Array.from(
+    { length: numberOfRecordsShouldMatch },
+    (_, i) =>
+      i === numberOfRecordsShouldMatch - 1 ? sortedRecords.length - 1 : i
+  )
+  let lastSum = 0
+  while (true) {
+    const sum = arrayWithIndexes.reduce((prev, curr) => {
+      const result = prev + sortedRecords[curr].value
+      return result
+    }, 0)
 
-  const recordsThatAddsUp = []
-
-  while (count < sortedRecords.length - 1) {
-    const sum =
-      sortedRecords[lowerBoundIndex].value +
-      sortedRecords[upperBoundIndex].value
+    if (sum === lastSum) {
+      break
+    }
+    lastSum = sum
     if (sum === desiredSum) {
-      return [sortedRecords[lowerBoundIndex], sortedRecords[upperBoundIndex]]
+      return arrayWithIndexes.map(a => sortedRecords[a])
     }
-
     if (sum < desiredSum) {
-      lowerBoundIndex++
+      for (let i = 0; i < arrayWithIndexes.length; i++) {
+        const highestIndexAllowed =
+          sortedRecords.length - 1 - (arrayWithIndexes.length - 1 - i)
+
+        if (arrayWithIndexes[i] + 1 === arrayWithIndexes[i + 1]) {
+          continue
+        } else {
+          if (arrayWithIndexes[i] < highestIndexAllowed) {
+            arrayWithIndexes[i]++
+            arrayWithIndexes = arrayWithIndexes.map((val, j) =>
+              j >= i ? val : i
+            )
+            break
+          }
+        }
+      }
     } else {
-      upperBoundIndex--
+      const last = numberOfRecordsShouldMatch - 1
+      arrayWithIndexes[last]--
+
+      arrayWithIndexes = arrayWithIndexes.map((val, i) =>
+        i === arrayWithIndexes.length - 1 ? val : i
+      )
     }
-    count++
   }
   return []
 }
@@ -59,20 +83,18 @@ export const readNumberRecordsFromFile = async (
 
 export const showFixedReportResult = async (
   path: string,
-  desiredSum: number
+  desiredSum: number,
+  numberOfFoo: number
 ): Promise<number | undefined> => {
   const records = await readNumberRecordsFromFile(path)
 
-  const sortedRecords = sortAsc(records)
-  const [firstRecord, secondRecord] = recordsValueSumEquals(
-    sortedRecords,
+  const matchingRecords = recordsValueSumEquals(
+    records,
     desiredSum,
-    2
+    numberOfFoo
   )
 
-  return firstRecord && secondRecord
-    ? firstRecord.value * secondRecord.value
-    : undefined
+  return matchingRecords.reduce((prev, curr) => prev * curr.value, 1)
 }
 export default {
   readNumberRecordsFromFile,

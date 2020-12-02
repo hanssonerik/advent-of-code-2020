@@ -88,17 +88,28 @@ describe('reportRepair', () => {
     expect(secondRecord).toEqual(expectedSecondRecord)
   })
 
-  it('should return product of numberRecords matching desiredSum from file', async () => {
-    const desiredSum = 2020
-    const fileName = 'day01-input.in'
+  it('should return three records that add upp to desired sum', () => {
+    const input = [
+      { index: 0, value: 3 },
+      { index: 1, value: 18 },
+      { index: 2, value: 4 },
+      { index: 3, value: 5 },
+      { index: 4, value: 10 },
+    ]
+    const desiredSum = 27
+    const expectedFirstRecord = { index: 2, value: 4 }
+    const expectedSecondRecord = { index: 3, value: 5 }
+    const expectedThirdRecord = { index: 1, value: 18 }
 
-    const reportResult = await showFixedReportResult(
-      `${__dirname}/${fileName}`,
-      desiredSum
+    const [firstRecord, secondRecord, thirdRecord] = recordsValueSumEquals(
+      input,
+      desiredSum,
+      3
     )
-    console.debug('RESULT from fixed report: ', reportResult)
 
-    expect(reportResult).toBeDefined()
+    expect(firstRecord).toEqual(expectedFirstRecord)
+    expect(secondRecord).toEqual(expectedSecondRecord)
+    expect(thirdRecord).toEqual(expectedThirdRecord)
   })
 
   it('should return two records that add upp to desired sum', () => {
@@ -121,6 +132,34 @@ describe('reportRepair', () => {
 
     expect(firstRecord).toEqual(expectedFirstRecord)
     expect(secondRecord).toEqual(expectedSecondRecord)
+  })
+
+  it('should return product of numberRecords matching desiredSum from file', async () => {
+    const desiredSum = 2020
+    const fileName = 'day01-input.in'
+
+    const reportResult = await showFixedReportResult(
+      `${__dirname}/${fileName}`,
+      desiredSum,
+      2
+    )
+    console.debug('ReportRepair two numberRecors result: ', reportResult)
+
+    expect(reportResult).toBeDefined()
+  })
+
+  it('should return product of three numberRecords matching desiredSum from file', async () => {
+    const desiredSum = 2020
+    const fileName = 'day01-input.in'
+
+    const reportResult = await showFixedReportResult(
+      `${__dirname}/${fileName}`,
+      desiredSum,
+      3
+    )
+    console.debug('ReportRepair three numberRecors result: ', reportResult)
+
+    expect(reportResult).toBeDefined()
   })
 
   it('should return numberRecord array from valid input filePath', async () => {
