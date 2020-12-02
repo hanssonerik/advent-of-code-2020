@@ -10,6 +10,7 @@
     "esModuleInterop": true,
     "module": "CommonJS",
     "moduleResolution": "node",
+    "downlevelIteration": true,
     "resolveJsonModule": false,
     "isolatedModules": true,
     "baseUrl": "./src",
