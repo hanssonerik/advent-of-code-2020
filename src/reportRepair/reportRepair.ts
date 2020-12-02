@@ -13,59 +13,59 @@ export const sortAsc = (input: NumberRecord[]): NumberRecord[] =>
 export const recordsValueSumEquals = (
   input: NumberRecord[],
   desiredSum: number,
-  numberOfRecordsShouldMatch: number
+  numberOfCombinations: number
 ): NumberRecord[] => {
-  if (input.length < 2) {
+  if (input.length < numberOfCombinations) {
     return []
   }
 
   const sortedRecords = sortAsc(input)
-  let arrayWithIndexes = Array.from(
-    { length: numberOfRecordsShouldMatch },
-    (_, i) =>
-      i === numberOfRecordsShouldMatch - 1 ? sortedRecords.length - 1 : i
+  const sortedRecordValues = sortedRecords.map(record => record.value)
+  let combinations = initializeCombinationArrayLastIndexWithTargetArrUpperBound(
+    numberOfCombinations,
+    sortedRecordValues
   )
+
+  const calculateSumOfAllCombinations = () =>
+    combinations.reduce((prev, curr) => prev + sortedRecordValues[curr], 0)
+
+  const mapCombinationArrayToNumberRecords = () =>
+    combinations.map(a => sortedRecords[a])
+
   let lastSum = 0
-  while (true) {
-    const sum = arrayWithIndexes.reduce((prev, curr) => {
-      const result = prev + sortedRecords[curr].value
-      return result
-    }, 0)
 
-    if (sum === lastSum) {
-      break
-    }
-    lastSum = sum
-    if (sum === desiredSum) {
-      return arrayWithIndexes.map(a => sortedRecords[a])
-    }
-    if (sum < desiredSum) {
-      for (let i = 0; i < arrayWithIndexes.length; i++) {
-        const highestIndexAllowed =
-          sortedRecords.length - 1 - (arrayWithIndexes.length - 1 - i)
+  const incrementNextLowerCombination = () => {
+    for (let i = 0; i < combinations.length; i++) {
+      const indexInNextCombination = combinations[i] + 1 === combinations[i + 1]
 
-        if (arrayWithIndexes[i] + 1 === arrayWithIndexes[i + 1]) {
-          continue
-        } else {
-          if (arrayWithIndexes[i] < highestIndexAllowed) {
-            arrayWithIndexes[i]++
-            arrayWithIndexes = arrayWithIndexes.map((val, j) =>
-              j >= i ? val : i
-            )
-            break
-          }
-        }
+      const combinationIndexCanIncrement =
+        !indexInNextCombination &&
+        combinations[i] <
+          highestIndexAllowed(combinations, sortedRecords.length - 1, i)
+
+      if (combinationIndexCanIncrement) {
+        combinations[i]++
+        combinations = combinations.map((val, j) => (j >= i ? val : i))
+        break
       }
-    } else {
-      const last = numberOfRecordsShouldMatch - 1
-      arrayWithIndexes[last]--
-
-      arrayWithIndexes = arrayWithIndexes.map((val, i) =>
-        i === arrayWithIndexes.length - 1 ? val : i
-      )
     }
   }
-  return []
+
+  let sum = calculateSumOfAllCombinations()
+
+  do {
+    lastSum = sum
+    if (sum < desiredSum) {
+      incrementNextLowerCombination()
+    } else {
+      decrementUpperCombination(combinations)
+      combinations = resetAllLowerCombinations(combinations)
+    }
+
+    sum = calculateSumOfAllCombinations()
+  } while (sum !== desiredSum && sum !== lastSum)
+
+  return sum !== lastSum ? mapCombinationArrayToNumberRecords() : []
 }
 
 export const readNumberRecordsFromFile = async (
@@ -103,3 +103,22 @@ export default {
   mapToNumberRecords,
   showFixedReportResult,
 }
+
+const decrementUpperCombination = (combinations: number[]) =>
+  combinations[combinations.length - 1]--
+
+const resetAllLowerCombinations = (combinations: number[]) =>
+  combinations.map((val, i) => (i === combinations.length - 1 ? val : i))
+const highestIndexAllowed = (
+  combinations: unknown[],
+  highestUpperBound: number,
+  currentIndex: number
+) => highestUpperBound - (combinations.length - 1 - currentIndex)
+
+const initializeCombinationArrayLastIndexWithTargetArrUpperBound = (
+  numberOfCombinations: number,
+  targetArr: unknown[]
+) =>
+  Array.from({ length: numberOfCombinations }, (_, i) =>
+    i === numberOfCombinations - 1 ? targetArr.length - 1 : i
+  )
