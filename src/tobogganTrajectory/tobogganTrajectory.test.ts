@@ -55,6 +55,7 @@ import {
   mapToMatrix,
   createMapFunction,
   countNumberOfHits,
+  countNumberOfHitsProduct,
 } from './tobogganTrajectory'
 
 describe('Toboggan Trajectory', () => {
@@ -135,11 +136,10 @@ describe('Toboggan Trajectory', () => {
     const repeatPattern = [1, 3]
     const expected = 7
 
-    const numberOfTreeHits = countNumberOfHits(
-      inputString,
-      startPosition,
-      repeatPattern
-    )
+    const map = mapToMatrix(inputString)
+    const numberOfTreeHits = countNumberOfHits(map, startPosition, [
+      repeatPattern,
+    ])
 
     expect(numberOfTreeHits).toEqual(expected)
   })
@@ -152,34 +152,31 @@ describe('Toboggan Trajectory', () => {
 
     const inputString = await promises.readFile(__dirname + fileName, 'utf8')
 
-    const numberOfTreeHits = countNumberOfHits(
-      inputString,
-      startPosition,
-      repeatPattern
-    )
+    const map = mapToMatrix(inputString)
+    const numberOfTreeHits = countNumberOfHits(map, startPosition, [
+      repeatPattern,
+    ])
 
-    console.debug('Toboggan Trajectory 1,3 result: ', numberOfTreeHits)
+    console.debug('Toboggan Trajectory part ons result: ', numberOfTreeHits)
     expect(numberOfTreeHits).toBeDefined()
   })
+
   it('should read file input and count all hits until bottom of map', async () => {
     const fileName = '/day03-input.in'
 
     const startPosition = [0, 0]
-    const repeatPattern = [1, 3]
 
     const inputString = await promises.readFile(__dirname + fileName, 'utf8')
+    const map = mapToMatrix(inputString)
+    const one = countNumberOfHitsProduct(map, startPosition, [
+      [1, 1],
+      [1, 3],
+      [1, 5],
+      [1, 7],
+      [2, 1],
+    ])
 
-    const one = countNumberOfHits(inputString, startPosition, [1, 1])
-
-    const two = countNumberOfHits(inputString, startPosition, [1, 3])
-    const three = countNumberOfHits(inputString, startPosition, [1, 5])
-
-    const fore = countNumberOfHits(inputString, startPosition, [1, 7])
-    const five = countNumberOfHits(inputString, startPosition, [2, 1])
-    console.debug(
-      'Toboggan Trajectory part two result: ',
-      one * two * three * fore * five
-    )
+    console.debug('Toboggan Trajectory part two result: ', one)
     expect(true).toBeDefined()
   })
 })

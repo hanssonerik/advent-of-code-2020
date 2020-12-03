@@ -15,22 +15,39 @@ export const createMapFunction = (map: string[][]) => (
 }
 
 export const countNumberOfHits = (
-  input: string,
+  map: string[][],
   startPosition: number[],
-  pattern: number[]
+  pattern: number[][]
 ) => {
-  const map = mapToMatrix(input)
   const mapFunc = createMapFunction(map)
-  const [startY, startX] = startPosition
-  const [stepY, stepX] = pattern
-
   let hitCounter = 0
 
-  for (let x = startX, y = startY; y < map.length; x += stepX, y += stepY) {
-    if (mapFunc(y, x) === '#') {
-      hitCounter++
+  pattern.forEach(stepPattern => {
+    const [startY, startX] = startPosition
+    const [stepY, stepX] = stepPattern
+
+    for (let x = startX, y = startY; y < map.length; x += stepX, y += stepY) {
+      if (mapFunc(y, x) === '#') {
+        hitCounter++
+      }
     }
-  }
+  })
   return hitCounter
 }
+
+export const countNumberOfHitsProduct = (
+  map: string[][],
+  startPosition: number[],
+  pattern: number[][]
+) => {
+  let hitCounterProduct = 1
+
+  pattern.forEach(stepPattern => {
+    let count = countNumberOfHits(map, startPosition, [stepPattern])
+    hitCounterProduct *= count
+  })
+
+  return hitCounterProduct
+}
+
 export default { mapToMatrix, createMapFunction }
