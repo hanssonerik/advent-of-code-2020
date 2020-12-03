@@ -51,7 +51,7 @@ In this example, traversing the map using this slope would cause you to encounte
 
 Starting at the top-left corner of your map and following a slope of right 3 and down 1, how many trees would you encounter?*/
 import sut from './tobogganTrajectory'
-const { mapToMatrix } = sut
+const { mapToMatrix, createMapFunction } = sut
 describe('Toboggan Trajectory', () => {
   it('should map string input to 2d map array', () => {
     const inputString = `
@@ -67,6 +67,7 @@ describe('Toboggan Trajectory', () => {
 
     expect(passwordRecords).toEqual(expected)
   })
+
   it('should map string input to 2d map array', () => {
     const inputString = `
 ..##.......
@@ -86,5 +87,27 @@ describe('Toboggan Trajectory', () => {
     expect(map[3][2]).toEqual('#')
     expect(map[3][3]).toEqual('.')
     expect(map[8][4]).toEqual('.')
+  })
+
+  it('shuld allow infinite x axis', () => {
+    const inputString = `
+..##.......
+#...#...#..
+.#....#..#.
+..#.#...#.#
+.#...##..#.
+..#.##.....
+.#.#.#....#
+.#........#
+#.##...#...
+#...##....#
+.#..#...#.#
+`
+    const map = createMapFunction(mapToMatrix(inputString))
+
+    expect(map(3, 2)).toEqual('#')
+    expect(map(3, 3)).toEqual('.')
+    expect(map(8, 4)).toEqual('.')
+    expect(map(8, 13)).toEqual('#')
   })
 })
