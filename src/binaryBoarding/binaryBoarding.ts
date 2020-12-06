@@ -24,7 +24,7 @@ export const getSeatAndRow = (
   let seat = initialSeatRange
   let row = initialRowRange
 
-  const result = [...input].forEach(c => {
+  input.split('').forEach(c => {
     if (c === 'B') {
       row = selectHigherRange(row)
     }
@@ -38,8 +38,6 @@ export const getSeatAndRow = (
       seat = selectLowerRange(seat)
     }
   })
-  if (row.firstRow !== row.lastRow)
-    console.debug('test', row.firstRow, row.lastRow, input)
 
   return {
     row: row.firstRow,
@@ -75,9 +73,8 @@ export const getEmptySeat = (input: string) => {
     .map(a => a.seatID)
     .reverse()
 
-  console.debug(JSON.stringify(result, null, 4))
   const [firstSeat] = result
-  console.debug(firstSeat)
+
   for (let i = 0; i < result.length; i++) {
     if (result[i] !== i + firstSeat) {
       return i + firstSeat
