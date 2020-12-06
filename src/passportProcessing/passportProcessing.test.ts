@@ -15,7 +15,7 @@ import {
 describe('Password Philosophy', () => {
   it('should parse input to list of passports', async () => {
     const inputString = await promises.readFile(
-      __dirname + '/day03-input.in',
+      __dirname + '/day04-input.in',
       'utf8'
     )
 
@@ -26,7 +26,7 @@ describe('Password Philosophy', () => {
   })
   it('should parse input to list of passports', async () => {
     const inputString = await promises.readFile(
-      __dirname + '/day03-input.in',
+      __dirname + '/day04-input.in',
       'utf8'
     )
 
@@ -39,8 +39,7 @@ describe('Password Philosophy', () => {
     const inValidPassports = passportRecords
       .map(mapToPassport)
       .filter(p => !validatePassport(p))
-    console.debug('invalids', JSON.stringify(inValidPassports, null, 4))
-    // console.debug('validPassports', JSON.stringify(validPassports, null, 4))
+
     console.debug('Passport result part 2: ', validPassports.length)
   })
 
