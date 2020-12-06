@@ -135,22 +135,6 @@ describe('reportRepair', () => {
     expect(reportResult).toBeDefined()
   })
 
-  it('should return numberRecord array from valid input filePath', async () => {
-    const fileName = 'testfile.in'
-    const desiredSum = 23
-
-    const expectedNumberRecords = [
-      { index: 0, value: 3 },
-      { index: 1, value: 18 },
-      { index: 2, value: 4 },
-      { index: 3, value: 5 },
-      { index: 4, value: 10 },
-    ]
-    const records = await readNumberRecordsFromFile(`${__dirname}/${fileName}`)
-
-    expect(records).toEqual(expectedNumberRecords)
-  })
-
   it('should return two undefined records if number of records is less than two', () => {
     const input = [{ index: 0, value: 3 }]
     const desiredSum = 23
