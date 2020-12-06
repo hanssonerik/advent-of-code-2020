@@ -122,10 +122,3 @@ describe('Binary Boarding', () => {
     })
   })
 })
-
-interface Node {
-  firstSeat: number
-  lastSeat: number
-  firstHalf?: () => Node
-  secondHalf?: () => Node
-}
