@@ -102,7 +102,7 @@ describe('Binary Boarding', () => {
 
     it('get highest seatId', async () => {
       const input = await promises.readFile(
-        __dirname + '/day04-input.in',
+        __dirname + '/day05-input.in',
         'utf8'
       )
 
@@ -112,7 +112,7 @@ describe('Binary Boarding', () => {
     })
     it('get mySeat seatId', async () => {
       const input = await promises.readFile(
-        __dirname + '/day04-input.in',
+        __dirname + '/day05-input.in',
         'utf8'
       )
 
